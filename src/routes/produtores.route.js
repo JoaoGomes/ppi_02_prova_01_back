@@ -12,6 +12,7 @@ router.get("/nome/:nome", cors(), produtorController.show);
 router.get("/id/:id", cors(), produtorController.show_id);
 router.put("/produtores/:nome", cors(), produtorController.update);
 router.delete("/produtores/:id", cors(), produtorController.destroy);
-// router.get("/all", produtorController.findAll);
+router.get("/all", cors(), produtorController.all);
+router.post("/login", cors(), produtorController.login);
 
 module.exports = router;
