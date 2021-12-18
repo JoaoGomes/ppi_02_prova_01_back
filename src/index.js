@@ -1,17 +1,30 @@
-// Importa o modulo do Express
 const express = require("express");
+// eslint-disable-next-line no-unused-vars
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
-// Cria uma aplicação Express
+// eslint-disable-next-line prettier/prettier
+const url = "mongodb+srv://Admin:santa-clara@back-end-santa-clara.rmw9y.mongodb.net/Back-end-Santa-Clara?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI || url;
+mongoose.connect(mongoDB);
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "Erro na Ligação ao MongoDB"));
+
+// Importa rota
+const produtor = require("./routes/produtores.route");
+
 const app = express();
 
-// Define uma rota
-app.get("/", (req, res) => {
-  // Envia um retorno
-  res.send("Hello World!");
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use("/", produtor);
 
-// Inicia o servidor na porta '3000'
-app.listen(3000, () => {
-  // imprime um comentário de log no console
-  console.log("Exemplo de aplicativo ouvindo a porta 3000");
+// app.use("/produtores", produtor);
+
+const porta = 3000;
+app.listen(porta, () => {
+  console.log(`Servidor em execução na porta ${porta}`);
 });

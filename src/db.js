@@ -1,20 +1,18 @@
-const mongo = require("mongodb");
+/* eslint-disable comma-dangle */
+/* eslint-disable prettier/prettier */
+const mongoose = require("mongoose");
 
-const url =
-  "mongodb+srv://Admin:santa-clara@back-end-santa-clara.rmw9y.mongodb.net/Back-end-Santa-Clara?retryWrites=true&w=majority";
+mongoose.connect(
+  "mongodb+srv://Admin:santa-clara@back-end-santa-clara.rmw9y.mongodb.net/Back-end-Santa-Clara?retryWrites=true&w=majority"
+);
 
-const con = mongo.createConnection({
-  host: "localhost",
-  port: "3000",
-  user: "Admin",
-  password: "santa-clara",
-  database: "sitepoint",
-});
+const produtorSchema = new mongoose.Schema(
+  {
+    name: String,
+    password: String,
+  },
+  // eslint-disable-next-line comma-dangle
+  { collection: "produtores" }
+);
 
-con.connect((err) => {
-  if (err) {
-    console.log("Erro ao conectar ao banco de dados");
-    return;
-  }
-  console.log("Conexão estabelecida");
-});
+module.exports = { Mongoose: mongoose, ProdutorSchema: produtorSchema };
