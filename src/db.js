@@ -10,6 +10,7 @@ const produtorSchema = new mongoose.Schema(
   {
     name: String,
     password: String,
+    role: String
   },
   // eslint-disable-next-line comma-dangle
   { collection: "produtores" }

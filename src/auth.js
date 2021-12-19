@@ -4,23 +4,28 @@
 
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 const accessTokenSecret = "tokensecret";
+const Produtor = require("./models/produtores.model");
 
 // Array de Usuários temporário
 // Vamos gravar no banco de dados posteriormente
 const users = [
   {
-    username: "john",
+    name: "john",
+    mail: "john@gmail.com",
     password: "password123admin",
     role: "admin",
   },
   {
-    username: "anna",
+    name: "anna",
+    mail: "anna@gmail.com",
     password: "password123member",
     role: "member",
   },
@@ -68,8 +73,8 @@ const authenticateJWT = (req, res, next) => {
   }
 };
 
-app.listen(3000, () => {
-  console.log("Serviço de autenticação iniciado na porta 3000");
+app.listen(3333, () => {
+  console.log("Serviço de autenticação iniciado na porta 3333");
 });
 
 // Endereço da rota é /courses
@@ -79,25 +84,66 @@ app.get("/courses", authenticateJWT, (req, res) => {
 
 // Endereço da rota é /login
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+  const { mail, password } = req.body;
   const user = users.find(
     // eslint-disable-next-line comma-dangle
-    (u) => u.username === username && u.password === password
+    (u) => u.mail === mail && u.password === password
   );
   if (user) {
     // Gera um token de acesso
     const accessToken = jwt.sign(
-      { username: user.username, role: user.role },
+      { name: user.name, role: user.role },
       // eslint-disable-next-line prettier/prettier
       accessTokenSecret,
       // eslint-disable-next-line prettier/prettier
       { expiresIn: "2m" },
     );
 
+    console.log(user);
     res.json({
       accessToken,
+      user
     });
   } else {
-    res.send("Nome de usuário ou senha incorretos");
+    res.send("Nome de usuário ou senha incorretos 2");
   }
 });
+
+/*
+  async login(req, res) {
+    try {
+      const { id, senha } = req.body;
+      // Filtra o usuário(user) do array de usuários(users) por nome de usuário e senha
+
+      const produtor = await Produtor.findById(req.body.id);
+      //      const findProducer = await Produtor.find({ nome: "Klecius" });
+      const findProducer = produtor;
+      console.log(`Id ${req.body.id} e senha: ${req.body.senha}`);
+      console.log(`id ${findProducer.id} e senha: ${findProducer.senha}`);
+
+      if (findProducer.id === id && findProducer.senha === senha) {
+        // Gera um token de acesso
+        // Erro de login corrigido após o video ter sido gravado
+        // Senha não era verificada antes. Apenas o nome.
+        const accessToken = jwt.sign(
+          { nome: findProducer.nome, role: findProducer.role },
+          accessTokenSecret,
+          // eslint-disable-next-line prettier/prettier
+          { expiresIn: "2m" },
+        );
+        const user = { id };
+        console.log(`Entramos aqui2.${findProducer.id}`);
+
+        return res.json({
+          accessToken,
+          user,
+        });
+      }
+      console.log(findProducer.nome);
+      // res.send('Nome de usuário ou senha incorretos');
+      return res.status(400).json({ error: "Erro" });
+    } catch (err) {
+      return res.status(404).json({ error: err.message });
+    }
+  },
+*/

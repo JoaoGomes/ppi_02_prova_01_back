@@ -21,8 +21,10 @@ module.exports = {
       const produtor = new Produtor({
         nome: req.body.nome,
         senha: req.body.senha,
+        role: req.body.role,
       });
-      console.log(req.body.nome);
+      //console.log(req.body.nome);
+      //console.log(produtor.role);
       produtor.save();
       return res.json(produtor);
     } catch (err) {
@@ -87,31 +89,29 @@ module.exports = {
 
   async login(req, res) {
     try {
-      const { id, senha } = req.body;
-      // Filtra o usuário(user) do array de usuários(users) por nome de usuário e senha
+      const findProducer = await Produtor.findById(req.body.id);
+      
+      // console.log(`1 - Body ${req.body}`);
+      // console.log(`2 - id ${id}`);
+      // console.log(`3 - senha ${senha}`);
+      // console.log(`4 - Id ${req.body.id} e senha: ${req.body.senha}`);
+      // console.log(`5 - Id ${findProducer.id} e senha: ${findProducer.senha}`);
 
-      const produtor = await Produtor.findById(req.body.id);
-      //      const findProducer = await Produtor.find({ nome: "Klecius" });
-      const findProducer = produtor;
-      console.log(`Id ${req.body.id} e senha: ${req.body.senha}`);
-      console.log(`id ${findProducer.id} e senha: ${findProducer.senha}`);
-
-      if (findProducer.id === id && findProducer.senha === senha) {
+      if (findProducer.id === req.body.id && findProducer.senha === req.body.senha) {
         // Gera um token de acesso
-        // Erro de login corrigido após o video ter sido gravado
-        // Senha não era verificada antes. Apenas o nome.
         const accessToken = jwt.sign(
-          { nome: findProducer.nome, role: findProducer.role },
+          { nome: findProducer.nome, /*role: findProducer.role*/ },
           accessTokenSecret,
           // eslint-disable-next-line prettier/prettier
           { expiresIn: "2m" },
         );
-        const user = { id };
-        console.log(`Entramos aqui2.${findProducer.id}`);
+        const user = findProducer.nome;
+        const role = findProducer.role;
+        console.log(`Entramos aqui2.${findProducer.nome}`);
 
         return res.json({
           accessToken,
-          user,
+          user, role
         });
       }
       console.log(findProducer.nome);
