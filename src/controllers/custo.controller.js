@@ -44,5 +44,13 @@ module.exports = {
         return res.status(400).json({ error: err.message });
       }
     },
-  
+
+    async all(req, res) {
+      try {
+        const custo = await Custo.find();
+        return res.json(custo);
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
 };

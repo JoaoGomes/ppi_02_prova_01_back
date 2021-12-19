@@ -28,8 +28,8 @@ module.exports = {
         });
 
         console.log(producao.data);
-        custo.save();
-        return res.json(custo);
+        producao.save();
+        return res.json(producao);
       } catch (err) {
         return res.status(400).json({ error: err.message });
       }
