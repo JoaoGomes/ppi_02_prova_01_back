@@ -16,4 +16,16 @@ const produtorSchema = new mongoose.Schema(
   { collection: "produtores" }
 );
 
-module.exports = { Mongoose: mongoose, ProdutorSchema: produtorSchema };
+const custoSchema = new mongoose.Schema(
+  {
+    name: String,
+    value: Number,
+    status: Boolean,
+    id_owner: String
+  },
+  // eslint-disable-next-line comma-dangle
+  { collection: "custos" }
+);
+
+
+module.exports = { Mongoose: mongoose, ProdutorSchema: produtorSchema, CustoSchema: custoSchema };

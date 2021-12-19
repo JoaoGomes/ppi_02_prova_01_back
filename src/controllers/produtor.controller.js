@@ -107,11 +107,12 @@ module.exports = {
         );
         const user = findProducer.nome;
         const role = findProducer.role;
+        const id = findProducer.id;
         console.log(`Entramos aqui2.${findProducer.nome}`);
 
         return res.json({
           accessToken,
-          user, role
+          user, role, id
         });
       }
       console.log(findProducer.nome);

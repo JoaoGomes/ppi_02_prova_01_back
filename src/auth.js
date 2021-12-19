@@ -14,23 +14,6 @@ app.use(cors());
 const accessTokenSecret = "tokensecret";
 const Produtor = require("./models/produtores.model");
 
-// Array de Usuários temporário
-// Vamos gravar no banco de dados posteriormente
-const users = [
-  {
-    name: "john",
-    mail: "john@gmail.com",
-    password: "password123admin",
-    role: "admin",
-  },
-  {
-    name: "anna",
-    mail: "anna@gmail.com",
-    password: "password123member",
-    role: "member",
-  },
-];
-
 // Array de Cursos temporário
 // Vamos gravar no banco de dados posteriormente
 const courses = [
@@ -108,42 +91,3 @@ app.post("/login", (req, res) => {
     res.send("Nome de usuário ou senha incorretos 2");
   }
 });
-
-/*
-  async login(req, res) {
-    try {
-      const { id, senha } = req.body;
-      // Filtra o usuário(user) do array de usuários(users) por nome de usuário e senha
-
-      const produtor = await Produtor.findById(req.body.id);
-      //      const findProducer = await Produtor.find({ nome: "Klecius" });
-      const findProducer = produtor;
-      console.log(`Id ${req.body.id} e senha: ${req.body.senha}`);
-      console.log(`id ${findProducer.id} e senha: ${findProducer.senha}`);
-
-      if (findProducer.id === id && findProducer.senha === senha) {
-        // Gera um token de acesso
-        // Erro de login corrigido após o video ter sido gravado
-        // Senha não era verificada antes. Apenas o nome.
-        const accessToken = jwt.sign(
-          { nome: findProducer.nome, role: findProducer.role },
-          accessTokenSecret,
-          // eslint-disable-next-line prettier/prettier
-          { expiresIn: "2m" },
-        );
-        const user = { id };
-        console.log(`Entramos aqui2.${findProducer.id}`);
-
-        return res.json({
-          accessToken,
-          user,
-        });
-      }
-      console.log(findProducer.nome);
-      // res.send('Nome de usuário ou senha incorretos');
-      return res.status(400).json({ error: "Erro" });
-    } catch (err) {
-      return res.status(404).json({ error: err.message });
-    }
-  },
-*/
