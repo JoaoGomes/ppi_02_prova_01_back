@@ -75,7 +75,7 @@ app.post("/login", (req, res) => {
   if (user) {
     // Gera um token de acesso
     const accessToken = jwt.sign(
-      { name: user.name, role: user.role },
+      { name: user.name },
       // eslint-disable-next-line prettier/prettier
       accessTokenSecret,
       // eslint-disable-next-line prettier/prettier

@@ -21,7 +21,6 @@ module.exports = {
       const produtor = new Produtor({
         nome: req.body.nome,
         senha: req.body.senha,
-        role: req.body.role,
       });
       //console.log(req.body.nome);
       //console.log(produtor.role);
@@ -106,13 +105,12 @@ module.exports = {
           { expiresIn: "2m" },
         );
         const user = findProducer.nome;
-        const role = findProducer.role;
         const id = findProducer.id;
-        console.log(`Entramos aqui2.${findProducer.nome}`);
+        console.log(`Entramos como cooperado: ${findProducer.nome}`);
 
         return res.json({
           accessToken,
-          user, role, id
+          user, id
         });
       }
       console.log(findProducer.nome);
