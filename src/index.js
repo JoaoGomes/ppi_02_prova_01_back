@@ -1,6 +1,4 @@
 const express = require("express");
-// eslint-disable-next-line no-unused-vars
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
@@ -14,6 +12,7 @@ db.on("error", console.error.bind(console, "Erro na Ligação ao MongoDB"));
 
 // Importa rota
 const produtor = require("./routes/produtores.route");
+const custo = require("./controllers/custo.controller");
 
 const app = express();
 
@@ -21,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/", produtor);
+app.use("/custo/", custo);
 
 // app.use("/produtores", produtor);
 

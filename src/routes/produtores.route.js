@@ -5,7 +5,7 @@ const router = express.Router();
 router.all("*", cors());
 
 const produtorController = require("../controllers/produtor.controller");
-const custoController = require("../controllers/custo.controller");
+const custoController = require("../controllers/custo.controller2");
 const producaoController = require("../controllers/producao.controller");
 
 router.get("/testar", cors(), produtorController.test);

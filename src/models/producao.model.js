@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
+
 const ProducaoSchema = new Schema({
   quantidade: { type: Number, required: true },
   valor: { type: Number, required: true },
