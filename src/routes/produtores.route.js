@@ -21,6 +21,7 @@ router.post("/custo/create", cors(), custoController.create);
 router.get("/custo/teste", cors(), custoController.test);
 router.delete("/custo/:id", cors(), custoController.destroy);
 router.get("/custo/all", cors(), custoController.all);
+router.get("/custo/:id", cors(), custoController.specific);
 
 router.post("/producao/create", cors(), producaoController.create);
 router.get("/producao/teste", cors(), producaoController.test);

@@ -45,4 +45,15 @@ module.exports = {
         return res.status(400).json({ error: err.message });
       }
     },
+
+    async specific(req, res) {
+      try {
+        const custo = await Custo.find( {id_dono: req.params.id } );
+        console.log("Deu certo!");
+        return res.json(custo);
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
+
 };
