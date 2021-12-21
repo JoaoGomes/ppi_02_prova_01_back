@@ -12,17 +12,12 @@ db.on("error", console.error.bind(console, "Erro na Ligação ao MongoDB"));
 
 // Importa rota
 const produtor = require("./routes/produtores.route");
-const custo = require("./controllers/custo.controller");
-
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/", produtor);
-app.use("/custo/", custo);
-
-// app.use("/produtores", produtor);
 
 const porta = 3333;
 app.listen(porta, () => {

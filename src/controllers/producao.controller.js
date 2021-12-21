@@ -1,48 +1,55 @@
-// eslint-disable-next-line no-unused-vars
-const jwt = require("jsonwebtoken");
-const express = require("express");
+const router = require('express').Router();
+let Producao = require('../models/producao.model');
 
-const app = express();
-const cors = require("cors");
+router.route('/all').get((req, res) => {
+  Producao.find()
+    .then(producoes => res.json(producoes))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
-app.use(cors());
+router.route('/create').post((req, res) => {
+  const quantidade = Number(req.body.quantidade);
+  const valor = Number(req.body.valor);
+  const status = Boolean(req.body.status);
+  const id_dono = req.body.id_dono;
 
-const Producao = require("../models/producao.model");
-const { Mongoose } = require("mongoose");
+  const novoCusto = new Custo({
+    quantidade,
+    valor,
+    status,
+    id_dono,
+  });
 
-const accessTokenSecret = "yoursecret";
+  novaProducao.save()
+  .then(() => res.json('Produção adicionada!'))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
 
-module.exports = {
-    async test(req, res) {
-      res.send("Sem problemas");
-    },
-  
-    async create(req, res) {
-      try {
-        const producao = new Producao({
-          quantidade: req.body.quantidade,
-          valor: req.body.valor,
-          status: req.body.status,
-          //data: Mongoose.prototype.now(),
-          id_dono: req.body.id_dono,
-        });
+router.route('/:id').get((req, res) => {
+  Producao.findById(req.params.id)
+    .then(producao => res.json(producao))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
-        console.log(producao.data);
-        producao.save();
-        return res.json(producao);
-      } catch (err) {
-        return res.status(400).json({ error: err.message });
-      }
-    },
+router.route('/:id').delete((req, res) => {
+  Producao.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Produção removida!'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
-    async destroy(req, res) {
-      try {
-        // eslint-disable-next-line no-unused-vars
-        const custo = await Producao.findByIdAndRemove(req.params.id);
-        return res.json();
-      } catch (err) {
-        return res.status(400).json({ error: err.message });
-      }
-    },
-  
-};
+router.route('/update/:id').post((req, res) => {
+  Producao.findById(req.params.id)
+    .then(producao => {
+      producao.quantidade = Number(req.body.quantidade);
+      producao.valor = Number(req.body.valor);
+      producao.status = Boolean(req.body.status);
+      producao.id_dono = req.body.id_dono;
+
+      producao.save()
+        .then(() => res.json('Produção atualizada!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+module.exports = router;

@@ -6,7 +6,7 @@ router.all("*", cors());
 
 const produtorController = require("../controllers/produtor.controller");
 const custoController = require("../controllers/custo.controller2");
-const producaoController = require("../controllers/producao.controller");
+const producaoController = require("../controllers/producao.controller2");
 
 router.get("/testar", cors(), produtorController.test);
 router.post("/create", cors(), produtorController.create);
@@ -25,5 +25,6 @@ router.get("/custo/all", cors(), custoController.all);
 router.post("/producao/create", cors(), producaoController.create);
 router.get("/producao/teste", cors(), producaoController.test);
 router.delete("/producao/:id", cors(), producaoController.destroy);
+router.get("/producao/all", cors(), producaoController.all);
 
 module.exports = router;

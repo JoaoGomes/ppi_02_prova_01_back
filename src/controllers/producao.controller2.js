@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 app.use(cors());
-const Custo = require("../models/custos.model");
+const Producao = require("../models/producao.model");
 
 module.exports = {
     async test(req, res) {
@@ -13,16 +13,16 @@ module.exports = {
   
     async create(req, res) {
       try {
-        const custo = new Custo({
-          nome: req.body.nome,
+        const producao = new Producao({
+          quantidade: req.body.quantidade,
           valor: req.body.valor,
           status: req.body.status,
           id_dono: req.body.id_dono,
         });
 
-        console.log(custo.data);
-        custo.save();
-        return res.json(custo);
+        console.log(producao.data);
+        producao.save();
+        return res.json(producao);
       } catch (err) {
         return res.status(400).json({ error: err.message });
       }
@@ -30,7 +30,7 @@ module.exports = {
 
     async destroy(req, res) {
       try {
-        const custo = await Custo.findByIdAndRemove(req.params.id);
+        const producao = await Producao.findByIdAndRemove(req.params.id);
         return res.json();
       } catch (err) {
         return res.status(400).json({ error: err.message });
@@ -39,10 +39,12 @@ module.exports = {
 
     async all(req, res) {
       try {
-        const custo = await Custo.find();
-        return res.json(custo);
+        const producao = await Producao.find();
+        return res.json(producao);
       } catch (err) {
         return res.status(400).json({ error: err.message });
       }
     },
+
+  
 };
