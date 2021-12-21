@@ -22,8 +22,7 @@ module.exports = {
         nome: req.body.nome,
         senha: req.body.senha,
       });
-      //console.log(req.body.nome);
-      //console.log(produtor.role);
+
       produtor.save();
       return res.json(produtor);
     } catch (err) {

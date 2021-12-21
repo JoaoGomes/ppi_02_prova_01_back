@@ -46,5 +46,15 @@ module.exports = {
       }
     },
 
+    async specific(req, res) {
+      try {
+        const producao = await Producao.find( {id_dono: req.params.id } );
+        console.log("Deu certo!");
+        return res.json(producao);
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
+
   
 };
