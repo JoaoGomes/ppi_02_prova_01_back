@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 const jwt = require("jsonwebtoken");
 const express = require("express");
 
@@ -12,10 +11,6 @@ const Produtor = require("../models/produtores.model");
 const accessTokenSecret = "yoursecret";
 
 module.exports = {
-  async test(req, res) {
-    res.send("Sem problemas");
-  },
-
   async create(req, res) {
     try {
       const produtor = new Produtor({
@@ -24,28 +19,6 @@ module.exports = {
       });
 
       produtor.save();
-      return res.json(produtor);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  },
-
-  // Pesquisa por nome não esta funcionando
-  async show(req, res) {
-    try {
-      console.log(req.params.nome.toString());
-      const produtor = await Produtor.findOne({
-        nome: req.params.nome.toString(),
-      });
-      return res.json(produtor);
-    } catch (err) {
-      return res.status(400).json({ error: err.message });
-    }
-  },
-
-  async show_id(req, res) {
-    try {
-      const produtor = await Produtor.findById(req.params.id);
       return res.json(produtor);
     } catch (err) {
       return res.status(400).json({ error: err.message });
@@ -69,7 +42,6 @@ module.exports = {
     try {
       // eslint-disable-next-line no-unused-vars
       const produtor = await Produtor.findByIdAndRemove(req.params.id);
-      // produtor.destroy();
       return res.json();
     } catch (err) {
       return res.status(400).json({ error: err.message });
@@ -89,16 +61,10 @@ module.exports = {
     try {
       const findProducer = await Produtor.findById(req.body.id);
       
-      // console.log(`1 - Body ${req.body}`);
-      // console.log(`2 - id ${id}`);
-      // console.log(`3 - senha ${senha}`);
-      // console.log(`4 - Id ${req.body.id} e senha: ${req.body.senha}`);
-      // console.log(`5 - Id ${findProducer.id} e senha: ${findProducer.senha}`);
-
       if (findProducer.id === req.body.id && findProducer.senha === req.body.senha) {
         // Gera um token de acesso
         const accessToken = jwt.sign(
-          { nome: findProducer.nome, /*role: findProducer.role*/ },
+          { nome: findProducer.nome },
           accessTokenSecret,
           // eslint-disable-next-line prettier/prettier
           { expiresIn: "2m" },
@@ -112,8 +78,6 @@ module.exports = {
           user, id
         });
       }
-      console.log(findProducer.nome);
-      // res.send('Nome de usuário ou senha incorretos');
       return res.status(400).json({ error: "Erro" });
     } catch (err) {
       return res.status(404).json({ error: err.message });

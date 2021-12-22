@@ -10,5 +10,4 @@ const CustoSchema = new Schema({
 }, { timestamps: true,
 });
 
-// Exportar
 module.exports = mongoose.model("Custo", CustoSchema);

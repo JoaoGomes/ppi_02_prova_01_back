@@ -1,55 +1,53 @@
-const router = require('express').Router();
-let Custo = require('../models/custos.model');
+const jwt = require("jsonwebtoken");
+const express = require("express");
 
-router.route('/all').get((req, res) => {
-  Custo.find()
-    .then(custos => res.json(custos))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+const app = express();
+const cors = require("cors");
+app.use(cors());
+const Custo = require("../models/custos.model");
 
-router.route('/create').post((req, res) => {
-  const nome = req.body.nome;
-  const valor = Number(req.body.valor);
-  const status = Boolean(req.body.status);
-  const id_dono = req.body.id_dono;
+module.exports = {
+    async create(req, res) {
+      try {
+        const custo = new Custo({
+          nome: req.body.nome,
+          valor: req.body.valor,
+          status: req.body.status,
+          id_dono: req.body.id_dono,
+        });
 
-  const novoCusto = new Custo({
-    nome,
-    valor,
-    status,
-    id_dono,
-  });
+        console.log(custo.data);
+        custo.save();
+        return res.json(custo);
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
 
-  novoCusto.save()
-  .then(() => res.json('Custo adicionado!'))
-  .catch(err => res.status(400).json('Error: ' + err));
-});
+    async destroy(req, res) {
+      try {
+        const custo = await Custo.findByIdAndRemove(req.params.id);
+        return res.json();
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
 
-router.route('/:id').get((req, res) => {
-  Custo.findById(req.params.id)
-    .then(custo => res.json(custo))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+    async all(req, res) {
+      try {
+        const custo = await Custo.find();
+        return res.json(custo);
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
 
-router.route('/:id').delete((req, res) => {
-  Custo.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Custo removido!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/update/:id').post((req, res) => {
-  Custo.findById(req.params.id)
-    .then(custo => {
-      custo.nome = req.body.nome;
-      custo.valor = Number(req.body.valor);
-      custo.status = Boolean(req.body.status);
-      custo.id_dono = req.body.id_dono;
-
-      custo.save()
-        .then(() => res.json('Custo atualizado!'))
-        .catch(err => res.status(400).json('Error: ' + err));
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-module.exports = router;
+    async specific(req, res) {
+      try {
+        const custo = await Custo.find( {id_dono: req.params.id } );
+        return res.json(custo);
+      } catch (err) {
+        return res.status(400).json({ error: err.message });
+      }
+    },
+};

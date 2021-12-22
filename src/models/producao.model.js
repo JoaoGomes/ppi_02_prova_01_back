@@ -9,5 +9,5 @@ const ProducaoSchema = new Schema({
   id_dono: {type: String, required: true },
 }, { timestamps: true,
 });
-// Exportar
+
 module.exports = mongoose.model("Producao", ProducaoSchema);

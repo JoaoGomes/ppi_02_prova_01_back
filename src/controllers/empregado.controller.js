@@ -18,8 +18,7 @@ module.exports = {
         nome: req.body.nome,
         senha: req.body.senha,
       });
-      //console.log(req.body.nome);
-      //console.log(produtor.role);
+
       empregado.save();
       return res.json(empregado);
     } catch (err) {
@@ -44,7 +43,6 @@ module.exports = {
     try {
       // eslint-disable-next-line no-unused-vars
       const empregado = await Empregado.findByIdAndRemove(req.params.id);
-      // produtor.destroy();
       return res.json();
     } catch (err) {
       return res.status(400).json({ error: err.message });
@@ -81,7 +79,7 @@ module.exports = {
           user, id
         });
       }
-      console.log(findEmpregado.nome);
+
       return res.status(400).json({ error: "Erro" });
     } catch (err) {
       return res.status(404).json({ error: err.message });
