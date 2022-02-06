@@ -57,6 +57,16 @@ module.exports = {
     }
   },
 
+  async specific(req, res) {
+    try {
+      const produtor = await Produtor.findOne({ _id: req.params.id});
+      return res.json(produtor.nome);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  },
+
+
   async login(req, res) {
     try {
       const findProducer = await Produtor.findById(req.body.id);
