@@ -39,7 +39,8 @@ router.get("/producao/:id", cors(), producaoController.specific);
 router.post("/unificado/create", cors(), unificadoController.create);
 router.delete("/unificado/:id", cors(),  unificadoController.destroy);
 router.get("/unificado/all", cors(),  unificadoController.all);
-router.get("/unificado/producao/", cors(),  unificadoController.specific_production);
+router.get("/unificado/producao/", cors(),  unificadoController.production);
+router.get("/unificado/producao/:id", cors(),  unificadoController.specific_production);
 router.get("/unificado/custo/:id/", cors(),  unificadoController.specific_cost);
 router.get("/unificado/:id/:gte/:lte", cors(),  unificadoController.specific_time);
 
