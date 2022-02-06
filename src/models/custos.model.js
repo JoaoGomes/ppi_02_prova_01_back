@@ -7,6 +7,7 @@ const CustoSchema = new Schema({
   valor: { type: Number, required: true },
   status: { type: Boolean, required: true},
   id_dono: {type: String, required: true },
+  data: {type: Date, required: true},
 }, { timestamps: true,
 });
 

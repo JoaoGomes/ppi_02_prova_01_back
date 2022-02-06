@@ -12,6 +12,7 @@ module.exports = {
         const custo = new Custo({
           nome: req.body.nome,
           valor: req.body.valor,
+          data: req.body.data,
           status: req.body.status,
           id_dono: req.body.id_dono,
         });
