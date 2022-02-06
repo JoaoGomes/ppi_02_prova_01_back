@@ -46,14 +46,32 @@ module.exports = {
       }
     },
 
-    async specific(req, res) {
+    async specific_cost(req, res) {
       try {
-        const unificado = await Unificado.find( {id_dono: req.params.id, 
-                                                    data: {$gte: req.params.gte,
-                                                          $lte: req.params.lte} });
+        const unificado = await Unificado.find( { id_dono: req.params.id, credito: 'false' });
         return res.json(unificado);
       } catch (err) {
         return res.status(400).json({ error: err.message });
       }
     },
+
+    async specific_production(req, res) {
+        try {
+          const unificado = await Unificado.find( {credito: 'true' });
+          return res.json(unificado);
+        } catch (err) {
+          return res.status(400).json({ error: err.message });
+        }
+      },
+  
+    async specific_time(req, res) {
+        try {
+          const unificado = await Unificado.find( {id_dono: req.params.id, 
+                                                      data: {$gte: req.params.gte,
+                                                            $lte: req.params.lte} });
+          return res.json(unificado);
+        } catch (err) {
+          return res.status(400).json({ error: err.message });
+        }
+      },
 };
