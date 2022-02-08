@@ -77,7 +77,7 @@ module.exports = {
         try {
           const unificado = await Unificado.find( {id_dono: req.params.id, 
                                                       data: {$gte: req.params.gte,
-                                                            $lte: req.params.lte} });
+                                                            $lte: req.params.lte}}).sort({data: -1});
           return res.json(unificado);
         } catch (err) {
           return res.status(400).json({ error: err.message });
