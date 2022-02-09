@@ -48,7 +48,7 @@ module.exports = {
 
     async specific_cost(req, res) {
       try {
-        const unificado = await Unificado.find( { id_dono: req.params.id, credito: 'false' });
+        const unificado = await Unificado.find( { id_dono: req.params.id, credito: 'false' }).sort({data: -1});
         return res.json(unificado);
       } catch (err) {
         return res.status(400).json({ error: err.message });
@@ -66,7 +66,7 @@ module.exports = {
 
     async specific_production(req, res) {
         try {
-          const unificado = await Unificado.find({id_dono: req.params.id, credito: 'true' });
+          const unificado = await Unificado.find({id_dono: req.params.id, credito: 'true' }).sort({data: -1});
           return res.json(unificado);
         } catch (err) {
           return res.status(400).json({ error: err.message });
